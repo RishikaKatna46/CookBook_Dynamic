@@ -1,0 +1,33 @@
+{
+  "name": "cookbook_dynamic",
+  "version": "1.0.0",
+  "description": "Dynamic MVC Web App for ISM 6225 Final Project – Azure Deployment",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+  "start": "node src/app.js",
+  "dev": "nodemon src/app.js"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RishikaKatna46/CookBook_Dynamic.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RishikaKatna46/CookBook_Dynamic/issues"
+  },
+  "homepage": "https://github.com/RishikaKatna46/CookBook_Dynamic#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "method-override": "^3.0.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
