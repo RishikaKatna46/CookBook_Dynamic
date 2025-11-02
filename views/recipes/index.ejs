@@ -1,0 +1,35 @@
+<%- include('../partials/_head') %>
+<%- include('../partials/_nav') %>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1><%= title %></h1>
+        <a href="/recipes/new" class="btn btn-primary">Add New Recipe</a>
+    </div>
+
+    <div class="row">
+        <% if (recipes.length > 0) { %>
+            <% recipes.forEach(recipe => { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= recipe.name %></h5>
+                            <p class="card-text"><%= recipe.instructions.substring(0, 100) %>...</p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <a href="/recipes/<%= recipe.id %>/edit" class="btn btn-sm btn-warning">Edit</a>
+                            
+                            <form action="/recipes/<%= recipe.id %>/delete" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this recipe?');">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No recipes found. <a href="/recipes/new">Add one!</a></p>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../partials/_footer') %>

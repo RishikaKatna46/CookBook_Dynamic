@@ -1,0 +1,29 @@
+<%- include('../partials/_head') %>
+<%- include('../partials/_nav') %>
+
+<div class="container mt-4">
+    <h1><%= title %></h1>
+
+    <form action="/recipes/<%= recipe.id %>/update" method="POST">
+        <div class="mb-3">
+            <label for="name" class="form-label">Recipe Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="<%= recipe.name %>" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="ingredients" class="form-label">Ingredients (comma-separated)</label>
+            <input type="text" class="form-control" id="ingredients" name="ingredients" value="<%= recipe.ingredientsString %>" required>
+            <div class="form-text">Please enter ingredients separated by a comma. (Note: Editing ingredients is not fully supported in this demo).</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="instructions" class="form-label">Instructions</label>
+            <textarea class="form-control" id="instructions" name="instructions" rows="5" required><%= recipe.instructions %></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="/recipes" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+<%- include('../partials/_footer') %>
