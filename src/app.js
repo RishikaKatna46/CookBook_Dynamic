@@ -1,35 +1,51 @@
-const express = require('express');
-const path = require('path');
-const expressLayouts = require('express-ejs-layouts');
-require('dotenv').config();
+// src/app.js  (ESM, final)
 
+import "dotenv/config";
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import methodOverride from "method-override";
+import expressLayouts from "express-ejs-layouts";
+
+// DB bootstraps on import (creates tables / optional seed via --seed)
+import "./db.js";
+
+// Routes
+import indexRoutes from "./routes/indexRoutes.js";
+import recipeRoutes from "./routes/recipeRoutes.js";
+import apiRoutes from "./routes/apiRoutes.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
+
 const PORT = process.env.PORT || 3000;
 
 // ---------- Middleware ----------
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(methodOverride("_method"));
+app.use(express.static(path.join(__dirname, "..", "public")));
 
-// ---------- View Engine ----------
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../views'));
-app.use(express.static(path.join(__dirname, '../public')));
-
-// ---------- Layouts Configuration ----------
-app.use(expressLayouts);        // must come BEFORE routes
-app.set('layout', 'layout');    // default layout file name (views/layout.ejs)
+// ---------- Views & Layouts ----------
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "..", "views"));
+app.use(expressLayouts);           // must be before routes that render views
+app.set("layout", "layout");       // views/layout.ejs
 
 // ---------- Routes ----------
-const apiRoutes = require('./routes/apiRoutes');
-const recipeRoutes = require('./routes/recipeRoutes');
+app.use("/", indexRoutes);         // '/', '/about', '/charts'
+app.use("/recipes", recipeRoutes); // CRUD
+app.use("/api", apiRoutes);        // /api/search, /api/stats
 
-app.use('/api', apiRoutes);
-app.use('/recipes', recipeRoutes);
+// ---------- Error Handler ----------
+app.use((err, req, res, _next) => {
+  console.error(err);
+  res.status(500).send("Server error");
+});
 
-app.get('/', (req, res) => res.render('home'));
-app.get('/about', (req, res) => res.render('about'));
-app.get('/charts', (req, res) => res.render('charts'));
+// ---------- Start Server ----------
+app.listen(PORT, () => {
+  console.log(`CookBook running at http://localhost:${PORT}`);
+});
 
-app.listen(PORT, () =>
-  console.log(`CookBook running on http://localhost:${PORT}`)
-);
+
