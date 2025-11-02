@@ -1,51 +1,26 @@
-<div class="hero">
-  <h2>About CookBook</h2>
-  <p style="max-width: 800px; margin: 2rem auto; line-height: 1.8; font-size: 1.1rem;">
-    Welcome to <strong>CookBook</strong> - your ultimate companion for discovering and managing delicious recipes!
-    Our platform combines the power of the Spoonacular API with a personalized recipe management system
-    to bring you the best culinary experience.
-  </p>
+<% layout('layout') -%>
 
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem; text-align: left;">
-    <div class="recipe-card">
-      <h3 style="color: #ff6b35; margin-bottom: 1rem;">Search Recipes</h3>
-      <p>Discover thousands of recipes by searching for ingredients, cuisines, or dish names using our powerful search engine.</p>
-    </div>
+<section class="card" style="padding:16px; margin-top:12px;">
+  <h2>Team & Roles</h2>
+  <ul>
+    <li><strong>Member 1 – Frontend Lead:</strong> layout/partials/styles, UI QA</li>
+    <li><strong>Member 2 – CRUD Engineer:</strong> models/controllers/routes for Recipes & Ingredients</li>
+    <li><strong>Member 3 – Data & Charts:</strong> DB seed, /api/stats, charts page</li>
+    <li><strong>Member 4 – Platform & Docs:</strong> app bootstrap, env, Azure deploy, About + ERD, README</li>
+  </ul>
+</section>
 
-    <div class="recipe-card">
-      <h3 style="color: #ff6b35; margin-bottom: 1rem;">View Statistics</h3>
-      <p>Analyze your recipe collection with interactive charts showing ratings, categories, and cooking trends.</p>
-    </div>
+<section class="card" style="padding:16px; margin-top:12px;">
+  <h2>Entity-Relationship Diagram</h2>
+  <img src="/images/erd.png" alt="ERD" style="max-width:100%; height:auto;">
+  <p class="help">Schema initializes from <code>src/db.js</code>. Use <code>npm run seed</code> for demo data.</p>
+</section>
 
-    <div class="recipe-card">
-      <h3 style="color: #ff6b35; margin-bottom: 1rem;">Save Favorites</h3>
-      <p>Build your personal cookbook by saving your favorite recipes with ratings and categories.</p>
-    </div>
-  </div>
+<section class="card" style="padding:16px; margin-top:12px;">
+  <h2>Links</h2>
+  <ul>
+    <li><a href="https://github.com/RishikaKatna46/CookBook_Dynamic" target="_blank">GitHub Repository</a></li>
+    <li><a href="https://<your-azure-app-name>.azurewebsites.net/" target="_blank">Live App (Azure)</a></li>
+  </ul>
+</section>
 
-  <div style="margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, #ff6b35, #ff9f1c); border-radius: 20px; color: white;">
-    <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Why Choose CookBook?</h3>
-    <p style="font-size: 1rem; line-height: 1.6;">
-      Whether you're a beginner cook or a culinary expert, CookBook makes it easy to explore new recipes,
-      organize your favorites, and track your cooking journey. With access to thousands of recipes through
-      the Spoonacular API and the ability to save and rate your own collection, you'll never run out of
-      meal inspiration. Our intuitive interface and powerful search features help you find the perfect
-      recipe for any occasion, dietary preference, or available ingredients.
-    </p>
-  </div>
-
-  <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
-    <div style="text-align: center; padding: 1.5rem;">
-      <h4 style="font-size: 2rem; color: #ff6b35; margin-bottom: 0.5rem;">10,000+</h4>
-      <p style="color: #666;">Recipes Available</p>
-    </div>
-    <div style="text-align: center; padding: 1.5rem;">
-      <h4 style="font-size: 2rem; color: #ff6b35; margin-bottom: 0.5rem;">Easy</h4>
-      <p style="color: #666;">Recipe Management</p>
-    </div>
-    <div style="text-align: center; padding: 1.5rem;">
-      <h4 style="font-size: 2rem; color: #ff6b35; margin-bottom: 0.5rem;">Smart</h4>
-      <p style="color: #666;">Search & Analytics</p>
-    </div>
-  </div>
-</div>
