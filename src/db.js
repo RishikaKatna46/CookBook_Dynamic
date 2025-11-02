@@ -1,6 +1,9 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('./cookbook.db');
 
+// Enable foreign key constraints
+db.run('PRAGMA foreign_keys = ON');
+
 // Initialize database schema
 db.serialize(() => {
   db.run(`
