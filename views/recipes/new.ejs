@@ -1,29 +1,52 @@
-<%- include('../partials/_head') %>
-<%- include('../partials/_nav') %>
+<div class="hero">
+  <h2><%= title %></h2>
+  <p>Add a new recipe to your collection</p>
 
-<div class="container mt-4">
-    <h1><%= title %></h1>
-
+  <div style="max-width: 600px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
     <form action="/recipes" method="POST">
-        <div class="mb-3">
-            <label for="name" class="form-label">Recipe Name</label>
-            <input type="text" class="form-control" id="name" name="name" required>
-        </div>
+      <div style="margin-bottom: 1.5rem;">
+        <label for="name" style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 500;">Recipe Name *</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;"
+          placeholder="e.g., Chocolate Chip Cookies"
+        />
+      </div>
 
-        <div class="mb-3">
-            <label for="ingredients" class="form-label">Ingredients (comma-separated)</label>
-            <input type="text" class="form-control" id="ingredients" name="ingredients" placeholder="e.g., flour, sugar, eggs" required>
-            <div class="form-text">Please enter ingredients separated by a comma.</div>
-        </div>
+      <div style="margin-bottom: 1.5rem;">
+        <label for="instructions" style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 500;">Instructions *</label>
+        <textarea
+          id="instructions"
+          name="instructions"
+          required
+          rows="6"
+          style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; font-family: 'Poppins', sans-serif; resize: vertical;"
+          placeholder="Enter cooking instructions step by step..."
+        ></textarea>
+      </div>
 
-        <div class="mb-3">
-            <label for="instructions" class="form-label">Instructions</label>
-            <textarea class="form-control" id="instructions" name="instructions" rows="5" required></textarea>
-        </div>
+      <div style="margin-bottom: 1.5rem;">
+        <label for="ingredients" style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 500;">Ingredients (comma-separated) *</label>
+        <input
+          type="text"
+          id="ingredients"
+          name="ingredients"
+          required
+          style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;"
+          placeholder="e.g., flour, sugar, eggs, butter"
+        />
+        <small style="color: #666; display: block; margin-top: 0.25rem;">Please enter ingredients separated by commas.</small>
+      </div>
 
-        <button type="submit" class="btn btn-primary">Create Recipe</button>
-        <a href="/recipes" class="btn btn-secondary">Cancel</a>
+      <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+        <button type="submit" style="padding: 0.75rem 2rem;">Create Recipe</button>
+        <a href="/recipes">
+          <button type="button" style="padding: 0.75rem 2rem; background: linear-gradient(135deg, #95a5a6, #7f8c8d);">Cancel</button>
+        </a>
+      </div>
     </form>
+  </div>
 </div>
-
-<%- include('../partials/_footer') %>

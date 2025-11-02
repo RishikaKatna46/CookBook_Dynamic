@@ -1,35 +1,44 @@
-<%- include('../partials/_head') %>
-<%- include('../partials/_nav') %>
+<div class="hero">
+  <h2><%= title %></h2>
+  <p>Browse and manage your recipe collection</p>
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1><%= title %></h1>
-        <a href="/recipes/new" class="btn btn-primary">Add New Recipe</a>
-    </div>
+  <div style="margin-top: 2rem;">
+    <a href="/recipes/new">
+      <button style="margin-right: 1rem;">+ Add New Recipe</button>
+    </a>
+  </div>
 
-    <div class="row">
-        <% if (recipes.length > 0) { %>
-            <% recipes.forEach(recipe => { %>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title"><%= recipe.name %></h5>
-                            <p class="card-text"><%= recipe.instructions.substring(0, 100) %>...</p>
-                        </div>
-                        <div class="card-footer d-flex justify-content-between">
-                            <a href="/recipes/<%= recipe.id %>/edit" class="btn btn-sm btn-warning">Edit</a>
-                            
-                            <form action="/recipes/<%= recipe.id %>/delete" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this recipe?');">
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            <% }) %>
-        <% } else { %>
-            <p>No recipes found. <a href="/recipes/new">Add one!</a></p>
-        <% } %>
-    </div>
+  <div class="results-grid" style="margin-top: 2rem;">
+    <% if (recipes.length > 0) { %>
+      <% recipes.forEach(recipe => { %>
+        <div class="recipe-card">
+          <h3><%= recipe.name %></h3>
+          <% if (recipe.category) { %>
+            <p><strong>Category:</strong> <%= recipe.category %></p>
+          <% } %>
+          <% if (recipe.rating) { %>
+            <p><strong>Rating:</strong> <%= recipe.rating %></p>
+          <% } %>
+          <% if (recipe.instructions) { %>
+            <p style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+              <%= recipe.instructions.length > 100 ? recipe.instructions.substring(0, 100) + '...' : recipe.instructions %>
+            </p>
+          <% } %>
+          <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: center;">
+            <a href="/recipes/<%= recipe.id %>/edit">
+              <button style="padding: 0.5rem 1rem; font-size: 0.9rem;">Edit</button>
+            </a>
+            <form action="/recipes/<%= recipe.id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this recipe?');">
+              <button type="submit" style="padding: 0.5rem 1rem; font-size: 0.9rem; background: linear-gradient(135deg, #e74c3c, #c0392b);">Delete</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+        <h3 style="color: #666; margin-bottom: 1rem;">No recipes found</h3>
+        <p style="color: #999;">Start by <a href="/recipes/new" style="color: #ff8c42;">adding your first recipe</a>!</p>
+      </div>
+    <% } %>
+  </div>
 </div>
-
-<%- include('../partials/_footer') %>
