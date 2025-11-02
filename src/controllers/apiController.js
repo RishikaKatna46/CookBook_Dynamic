@@ -1,19 +1,22 @@
-import { initDB } from "../db.js";
+const axios = require('axios');
+require('dotenv').config();
 
-export async function getStats(req, res) {
-  const db = await initDB();
-  const totalRecipes = (await db.get(`SELECT COUNT(*) AS c FROM recipes`)).c;
-  const avgRating = (await db.get(`SELECT ROUND(AVG(rating),2) AS a FROM recipes`)).a;
-  const topCategory = (await db.get(`
-    SELECT category, COUNT(*) AS total
-    FROM recipes
-    GROUP BY category
-    ORDER BY total DESC
-    LIMIT 1
-  `));
-  res.json({
-    totalRecipes,
-    avgRating,
-    topCategory: topCategory?.category || "N/A",
-  });
-}
+const searchRecipes = async (req, res) => {
+  const query = req.query.query;
+  const apiKey = process.env.SPOONACULAR_API_KEY;
+
+  try {
+    const response = await axios.get(
+      `https://api.spoonacular.com/recipes/complexSearch`,
+      {
+        params: { apiKey, query, number: 10 },
+      }
+    );
+    res.json(response.data);
+  } catch (err) {
+    console.error('API error:', err.message);
+    res.status(500).json({ error: 'Failed to fetch recipes' });
+  }
+};
+
+module.exports = { searchRecipes };

@@ -1,7 +1,7 @@
-import express from "express";
-import { getStats } from "../controllers/apiController.js";
+const express = require('express');
 const router = express.Router();
+const { searchRecipes } = require('../controllers/apiController');
 
-router.get("/stats", getStats);
+router.get('/search', searchRecipes);
 
-export default router;
+module.exports = router;
