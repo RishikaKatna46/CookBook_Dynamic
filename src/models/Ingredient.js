@@ -29,6 +29,16 @@ export class Ingredient {
       throw err;
     }
   }
+
+  // 🔹 Deletes all ingredients for a specific recipe
+  static async deleteByRecipeId(recipeId) {
+    try {
+      await db.run("DELETE FROM ingredients WHERE recipe_id = ?", [recipeId]);
+    } catch (err) {
+      console.error("Error deleting ingredients:", err);
+      throw err;
+    }
+  }
 }
 
 export default Ingredient;
