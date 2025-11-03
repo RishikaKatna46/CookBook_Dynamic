@@ -38,6 +38,11 @@ router.get("/:id/edit", editRecipeForm);
 router.put("/:id", updateRecipeController);
 
 /**
+ * 🔹 Update recipe (POST for form submission)
+ */
+router.post("/:id/update", updateRecipeController);
+
+/**
  * 🔹 Delete recipe (DELETE)
  */
 router.delete("/:id", deleteRecipeController);
