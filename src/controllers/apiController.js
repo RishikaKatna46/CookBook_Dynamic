@@ -4,19 +4,80 @@ require('dotenv').config();
 
 const searchRecipes = async (req, res) => {
   const query = req.query.query;
-  const apiKey = process.env.SPOONACULAR_API_KEY;
 
   try {
     const response = await axios.get(
-      `https://api.spoonacular.com/recipes/complexSearch`,
+      'https://www.themealdb.com/api/json/v1/1/search.php',
       {
-        params: { apiKey, query, number: 10 },
+        params: { s: query },
       }
     );
-    res.json(response.data);
+
+    // TheMealDB returns { meals: [...] } or { meals: null }
+    const meals = response.data.meals || [];
+
+    // Transform to match our frontend format
+    const results = meals.map(meal => ({
+      id: meal.idMeal,
+      title: meal.strMeal,
+      image: meal.strMealThumb,
+    }));
+
+    res.json({ results });
   } catch (err) {
     console.error('API error:', err.message);
     res.status(500).json({ error: 'Failed to fetch recipes' });
+  }
+};
+
+const getRecipeDetails = async (req, res) => {
+  const recipeId = req.params.id;
+
+  try {
+    const response = await axios.get(
+      'https://www.themealdb.com/api/json/v1/1/lookup.php',
+      { params: { i: recipeId } }
+    );
+
+    const meal = response.data.meals?.[0];
+
+    if (!meal) {
+      return res.status(404).json({ error: 'Recipe not found' });
+    }
+
+    // Transform ingredients (strIngredient1-20, strMeasure1-20)
+    const ingredients = [];
+    for (let i = 1; i <= 20; i++) {
+      const ingredient = meal[`strIngredient${i}`];
+      const measure = meal[`strMeasure${i}`];
+      if (ingredient && ingredient.trim()) {
+        ingredients.push({
+          name: ingredient,
+          amount: measure || '',
+          unit: '',
+        });
+      }
+    }
+
+    // Transform to match our frontend format
+    const recipe = {
+      id: meal.idMeal,
+      title: meal.strMeal,
+      image: meal.strMealThumb,
+      category: meal.strCategory,
+      area: meal.strArea,
+      instructions: meal.strInstructions,
+      extendedIngredients: ingredients,
+      sourceUrl: meal.strSource,
+      youtubeUrl: meal.strYoutube,
+      servings: '4',
+      readyInMinutes: '30',
+    };
+
+    res.json(recipe);
+  } catch (err) {
+    console.error('API error:', err.message);
+    res.status(500).json({ error: 'Failed to fetch recipe details' });
   }
 };
 
@@ -68,4 +129,4 @@ const getStats = async (req, res) => {
   }
 };
 
-module.exports = { searchRecipes, getStats };
+module.exports = { searchRecipes, getRecipeDetails, getStats };
