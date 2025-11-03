@@ -15,9 +15,10 @@
     <h1>🍳 CookBook</h1>
     <nav>
       <a href="/">Home</a>
-      <a href="/recipes">My Recipes <span id="recipeCount" 
-        style="background: var(--primary-orange); color: white; padding: 0.2rem 0.6rem; 
+      <a href="/recipes">My Recipes <span id="recipeCount"
+        style="background: var(--primary-orange); color: white; padding: 0.2rem 0.6rem;
         border-radius: 20px; font-size: 0.9rem; margin-left: 0.5rem;">0</span></a>
+      <a href="/contact">Contact Us</a>
       <a href="/about">About</a>
     </nav>
   </header>
@@ -70,6 +71,7 @@
     if (params.get('created') === 'true') showToast('✅ Recipe created successfully!');
     if (params.get('updated') === 'true') showToast('✅ Recipe updated successfully!');
     if (params.get('deleted') === 'true') showToast('✅ Recipe deleted successfully!');
+    if (params.get('contacted') === 'true') showToast('✅ Message sent successfully! We\'ll get back to you soon.');
 
     // Update recipe count badge
     fetch('/api/stats')
