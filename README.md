@@ -4,7 +4,7 @@ This is our final project for ISM 6225 - a full-stack web application for managi
 
 ## What This App Does
 
-CookBook lets you search for recipes from an external API, save your own recipes, and manage ingredients. We implemented full CRUD operations so you can create, read, update, and delete recipes. The app also tracks statistics about your recipe collection like average ratings and most popular categories.
+CookBook lets you search for recipes from an external API, save your own recipes, and manage ingredients. We implemented full CRUD operations so you can create, read, update, and delete recipes. The app tracks statistics about your recipe collection like average ratings and most popular categories, displaying them in a visual dashboard on the home page. Users can switch between light and dark themes for comfortable viewing, and contact the team through a built-in contact form.
 
 ## Tech Stack
 
@@ -44,9 +44,10 @@ npm run dev
 
 ### Database Setup
 
-The database is automatically created when you first run the app. It creates a SQLite database at `data/cookbook.db` with two tables:
-- `recipes` - stores recipe information (title, category, rating, created_at)
+The database is automatically created when you first run the app. It creates a SQLite database at `data/cookbook.db` with three tables:
+- `recipes` - stores recipe information (title, instructions, category, rating, created_at)
 - `ingredients` - stores ingredients linked to recipes with cascade delete
+- `contacts` - stores contact form submissions
 
 If you want to seed the database with sample data:
 
@@ -69,10 +70,11 @@ CookBook_Dynamic/
 │   ├── models/         # Database models (Recipe, Ingredient)
 │   └── routes/         # Route definitions (api, recipes, index)
 ├── views/
-│   ├── layout.ejs      # Main layout template
-│   ├── home.ejs        # Homepage with recipe search
-│   ├── about.ejs       # About page with team info
-│   └── recipes/        # Recipe CRUD pages (index, new, edit)
+│   ├── layout.ejs      # Main layout template with theme toggle
+│   ├── home.ejs        # Homepage with recipe search and stats dashboard
+│   ├── about.ejs       # About page with team info and ERD
+│   ├── contact.ejs     # Contact form page
+│   └── recipes/        # Recipe CRUD pages (index, new, edit, show)
 ├── data/               # SQLite database storage (gitignored)
 ├── .env                # Environment variables (gitignored)
 └── package.json
@@ -85,18 +87,26 @@ Search for recipes using the Forkify API. Results display in a responsive grid w
 
 ### 2. My Recipes (CRUD Operations)
 Manage your personal recipe collection:
-- **Create:** Add new recipes with title, category, and rating
-- **Read:** View all your saved recipes in a clean interface
-- **Update:** Edit existing recipes anytime
+- **Create:** Add new recipes with title, instructions, ingredients, category, and rating
+- **Read:** View all your saved recipes in a clean interface with a count badge
+- **Update:** Edit existing recipes including their ingredients
 - **Delete:** Remove recipes you don't need anymore
 
-### 3. Statistics API
-The `/api/stats` endpoint provides insights:
+### 3. Statistics Dashboard
+The home page displays a visual statistics dashboard showing:
 - Total number of saved recipes
-- Average recipe rating
+- Average recipe rating across your collection
 - Most popular category in your collection
 
-### 4. About Page
+The `/api/stats` endpoint provides this data dynamically and updates the navigation badge with the recipe count.
+
+### 4. Dark/Light Theme Toggle
+Switch between light and dark modes using the theme toggle button in the header. Your preference is saved in localStorage and persists across sessions. The theme applies smoothly across all pages with custom color schemes for optimal readability.
+
+### 5. Contact Us
+Submit messages through a contact form that saves to the database. Perfect for user feedback or questions.
+
+### 6. About Page
 Team information with member names and roles, ERD diagram showing database relationships, and project links.
 
 ## API Endpoints
@@ -165,7 +175,8 @@ Handled app configuration, environment setup, ERD documentation, and preparing f
 ```sql
 CREATE TABLE recipes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT,
+  title TEXT NOT NULL,
+  instructions TEXT,
   category TEXT,
   rating REAL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -183,7 +194,18 @@ CREATE TABLE ingredients (
 );
 ```
 
-The relationship is one-to-many: each recipe can have multiple ingredients. We enabled foreign key constraints with cascading deletes, so when you delete a recipe, all its ingredients are automatically removed too.
+### Contacts Table
+```sql
+CREATE TABLE contacts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+The relationship between recipes and ingredients is one-to-many: each recipe can have multiple ingredients. We enabled foreign key constraints with cascading deletes, so when you delete a recipe, all its ingredients are automatically removed too.
 
 ## Deployment on Azure
 
@@ -228,6 +250,8 @@ Had to escape special characters in recipe titles for onclick handlers to preven
 - All pages use express-ejs-layouts for consistent structure
 - Foreign key constraints are enabled for proper data integrity
 - The orange color theme was chosen to give a warm, inviting feel
+- Dark mode uses darker backgrounds with optimized contrast for comfortable reading
+- Theme preference is saved in browser localStorage and persists across sessions
 
 ## Repository
 
