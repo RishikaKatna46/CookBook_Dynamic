@@ -1,76 +1,47 @@
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./cookbook.db');
+// src/db.js
+import sqlite3 from "sqlite3";
+import { open } from "sqlite";
+import path from "path";
+import { fileURLToPath } from "url";
 
-// Enable foreign key constraints
-db.run('PRAGMA foreign_keys = ON');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const dbPath = path.join(__dirname, "../data/cookbook.db");
 
-// Initialize database schema
-db.serialize(() => {
-  db.run(`
+// Create database connection (asynchronous)
+let db;
+
+async function connectDB() {
+  if (db) return db; // Reuse existing connection
+
+  db = await open({
+    filename: dbPath,
+    driver: sqlite3.Database,
+  });
+
+  // Create tables if they don't exist
+  await db.exec(`
     CREATE TABLE IF NOT EXISTS recipes (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
+      title TEXT,
       category TEXT,
-      rating REAL DEFAULT 0,
-      instructions TEXT
-    )
-  `);
+      rating REAL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
 
-  db.run(`
     CREATE TABLE IF NOT EXISTS ingredients (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       recipe_id INTEGER,
       name TEXT,
       quantity TEXT,
-      FOREIGN KEY(recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
-    )
+      FOREIGN KEY (recipe_id) REFERENCES recipes(id)
+    );
   `);
 
-  // Check if we need to add the instructions column to existing tables
-  db.all("PRAGMA table_info(recipes)", [], (err, columns) => {
-    if (err) {
-      console.error('Error checking table schema:', err);
-      return;
-    }
+  console.log("✅ SQLite database initialized successfully.");
+  return db;
+}
 
-    const hasInstructions = columns.some(col => col.name === 'instructions');
-
-    if (!hasInstructions) {
-      db.run("ALTER TABLE recipes ADD COLUMN instructions TEXT", (err) => {
-        if (err) {
-          console.error('Error adding instructions column:', err);
-        } else {
-          console.log('✅ Added instructions column to recipes table');
-        }
-      });
-    }
-  });
-
-  // Seed database with sample data if empty
-  db.get("SELECT COUNT(*) AS count FROM recipes", [], (err, row) => {
-    if (err) {
-      console.error('Error checking recipes:', err);
-      return;
-    }
-
-    if (row.count === 0) {
-      console.log('🌱 Seeding database with sample recipes...');
-      const stmt = db.prepare(`
-        INSERT INTO recipes (name, category, rating, instructions)
-        VALUES (?, ?, ?, ?)
-      `);
-
-      stmt.run('Pancakes', 'Breakfast', 4.5, 'Mix flour, eggs, and milk. Cook on griddle until golden brown.');
-      stmt.run('Grilled Cheese', 'Lunch', 4.3, 'Butter bread, add cheese, grill until golden on both sides.');
-      stmt.run('Chicken Alfredo', 'Dinner', 4.8, 'Cook pasta. Make alfredo sauce with butter, cream, and parmesan. Add grilled chicken.');
-      stmt.run('Brownies', 'Dessert', 4.9, 'Mix chocolate, butter, sugar, eggs, and flour. Bake at 350°F for 25 minutes.');
-      stmt.run('Caesar Salad', 'Salad', 4.6, 'Toss romaine with caesar dressing, croutons, and parmesan cheese.');
-
-      stmt.finalize(() => {
-        console.log('✅ Sample recipes added successfully');
-      });
-    }
-  });
-});
-
-module.exports = db;
+// Immediately connect and export db instance
+const dbInstance = await connectDB();
+export default dbInstance;
