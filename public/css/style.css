@@ -390,6 +390,69 @@ footer p {
 .mb-2 {
   margin-bottom: 2rem;
 }
+
+/* Card Component */
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+  box-shadow: 0 10px 40px var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.card h2 {
+  color: var(--primary-orange);
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 3px solid var(--secondary-orange);
+  padding-bottom: 0.5rem;
+}
+
+.card ul {
+  list-style-position: inside;
+  line-height: 2;
+  color: var(--text-dark);
+}
+
+.card li {
+  margin-bottom: 0.75rem;
+}
+
+.card a {
+  color: var(--primary-orange);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.card a:hover {
+  color: var(--dark-orange);
+  text-decoration: underline;
+}
+
+.card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 15px;
+  margin: 1.5rem 0;
+  box-shadow: 0 5px 20px var(--shadow);
+}
+
+.card code {
+  background: var(--cream);
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  font-family: 'Courier New', monospace;
+  color: var(--dark-orange);
+}
+
+.card .help {
+  color: var(--text-light);
+  font-style: italic;
+  margin-top: 1rem;
+}
 /* ------------------------------------------------------------
    Recipe Details Modal Styling
 ------------------------------------------------------------ */
