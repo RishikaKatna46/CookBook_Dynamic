@@ -7,20 +7,20 @@ const searchRecipes = async (req, res) => {
 
   try {
     const response = await axios.get(
-      'https://www.themealdb.com/api/json/v1/1/search.php',
+      'https://forkify-api.herokuapp.com/api/v2/recipes',
       {
-        params: { s: query },
+        params: { search: query },
       }
     );
 
-    // TheMealDB returns { meals: [...] } or { meals: null }
-    const meals = response.data.meals || [];
+    // Forkify returns { status, data: { recipes: [...] } }
+    const recipes = response.data.data?.recipes || [];
 
     // Transform to match our frontend format
-    const results = meals.map(meal => ({
-      id: meal.idMeal,
-      title: meal.strMeal,
-      image: meal.strMealThumb,
+    const results = recipes.map(recipe => ({
+      id: recipe.id,
+      title: recipe.title,
+      image: recipe.image_url,
     }));
 
     res.json({ results });
@@ -35,43 +35,33 @@ const getRecipeDetails = async (req, res) => {
 
   try {
     const response = await axios.get(
-      'https://www.themealdb.com/api/json/v1/1/lookup.php',
-      { params: { i: recipeId } }
+      `https://forkify-api.herokuapp.com/api/v2/recipes/${recipeId}`
     );
 
-    const meal = response.data.meals?.[0];
+    const recipeData = response.data.data?.recipe;
 
-    if (!meal) {
+    if (!recipeData) {
       return res.status(404).json({ error: 'Recipe not found' });
     }
 
-    // Transform ingredients (strIngredient1-20, strMeasure1-20)
-    const ingredients = [];
-    for (let i = 1; i <= 20; i++) {
-      const ingredient = meal[`strIngredient${i}`];
-      const measure = meal[`strMeasure${i}`];
-      if (ingredient && ingredient.trim()) {
-        ingredients.push({
-          name: ingredient,
-          amount: measure || '',
-          unit: '',
-        });
-      }
-    }
+    // Transform ingredients from Forkify format
+    const ingredients = recipeData.ingredients.map(ing => ({
+      name: ing.description,
+      amount: ing.quantity || '',
+      unit: ing.unit || '',
+    }));
 
     // Transform to match our frontend format
     const recipe = {
-      id: meal.idMeal,
-      title: meal.strMeal,
-      image: meal.strMealThumb,
-      category: meal.strCategory,
-      area: meal.strArea,
-      instructions: meal.strInstructions,
+      id: recipeData.id,
+      title: recipeData.title,
+      image: recipeData.image_url,
+      publisher: recipeData.publisher,
+      instructions: `This delicious ${recipeData.title} recipe is brought to you by ${recipeData.publisher}. For full cooking instructions, please visit the source link below.`,
       extendedIngredients: ingredients,
-      sourceUrl: meal.strSource,
-      youtubeUrl: meal.strYoutube,
-      servings: '4',
-      readyInMinutes: '30',
+      sourceUrl: recipeData.source_url,
+      servings: recipeData.servings || 4,
+      readyInMinutes: recipeData.cooking_time || 30,
     };
 
     res.json(recipe);

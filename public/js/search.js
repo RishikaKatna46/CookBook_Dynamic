@@ -65,8 +65,8 @@ async function showRecipeDetails(recipeId) {
         <img src="${recipe.image}" alt="${recipe.title}" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
         <h2 style="color: #ff8c42; margin-bottom: 0.5rem;">${recipe.title}</h2>
         <div style="display: flex; gap: 1.5rem; margin-bottom: 1.5rem; color: #666; flex-wrap: wrap;">
-          ${recipe.category ? `<span>🍽️ ${recipe.category}</span>` : ''}
-          ${recipe.area ? `<span>🌍 ${recipe.area}</span>` : ''}
+          ${recipe.publisher ? `<span>👨‍🍳 ${recipe.publisher}</span>` : ''}
+          <span>⏱️ ${recipe.readyInMinutes} minutes</span>
           <span>👥 ${recipe.servings} servings</span>
         </div>
       </div>
@@ -85,15 +85,10 @@ async function showRecipeDetails(recipeId) {
         </div>
       </div>
 
-      <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <div style="margin-top: 2rem; text-align: center;">
         ${recipe.sourceUrl ? `
-          <a href="${recipe.sourceUrl}" target="_blank" style="color: #ff8c42; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; border: 2px solid #ff8c42; border-radius: 8px;">
-            📖 View Original Recipe
-          </a>
-        ` : ''}
-        ${recipe.youtubeUrl ? `
-          <a href="${recipe.youtubeUrl}" target="_blank" style="color: #e74c3c; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; border: 2px solid #e74c3c; border-radius: 8px;">
-            🎥 Watch Video
+          <a href="${recipe.sourceUrl}" target="_blank" style="color: #ff8c42; text-decoration: none; font-weight: 500; padding: 0.75rem 2rem; border: 2px solid #ff8c42; border-radius: 8px; display: inline-block;">
+            📖 View Full Recipe Instructions
           </a>
         ` : ''}
       </div>
