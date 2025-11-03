@@ -2,7 +2,7 @@
    CookBook - Orange Theme Styles
    =========================== */
 
-/* Root Variables */
+/* Root Variables - Light Theme */
 :root {
   --primary-orange: #ff6b35;
   --secondary-orange: #ff9f1c;
@@ -14,6 +14,34 @@
   --text-light: #666666;
   --shadow: rgba(255, 107, 53, 0.2);
   --shadow-hover: rgba(255, 107, 53, 0.4);
+  --bg-gradient-start: #ff9f1c;
+  --bg-gradient-mid: #ff6b35;
+  --bg-gradient-end: #ffa559;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --header-bg: rgba(255, 255, 255, 0.95);
+  --input-bg: #ffffff;
+  --modal-bg: linear-gradient(135deg, #ffffff, #fff5f0);
+}
+
+/* Dark Theme Variables */
+[data-theme="dark"] {
+  --primary-orange: #ff8c5a;
+  --secondary-orange: #ffb347;
+  --dark-orange: #ff6b35;
+  --light-orange: #ffc589;
+  --cream: #2a2a2a;
+  --white: #1a1a1a;
+  --text-dark: #e0e0e0;
+  --text-light: #b0b0b0;
+  --shadow: rgba(0, 0, 0, 0.4);
+  --shadow-hover: rgba(0, 0, 0, 0.6);
+  --bg-gradient-start: #1a1a1a;
+  --bg-gradient-mid: #2a2a2a;
+  --bg-gradient-end: #1a1a1a;
+  --card-bg: rgba(42, 42, 42, 0.95);
+  --header-bg: rgba(26, 26, 26, 0.95);
+  --input-bg: #333333;
+  --modal-bg: linear-gradient(135deg, #2a2a2a, #1a1a1a);
 }
 
 /* Reset & Base Styles */
@@ -27,17 +55,18 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #ff9f1c 0%, #ff6b35 50%, #ffa559 100%);
+  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 50%, var(--bg-gradient-end) 100%);
   background-attachment: fixed;
   color: var(--text-dark);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* Header Styles */
 header {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--header-bg);
   backdrop-filter: blur(10px);
   color: var(--primary-orange);
   padding: 1.5rem 3rem;
@@ -48,6 +77,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
+  transition: background 0.3s ease;
 }
 
 header h1 {
@@ -109,12 +139,13 @@ main {
 .hero {
   text-align: center;
   padding: 4rem 2rem;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--card-bg);
   border-radius: 30px;
   margin: 2rem auto;
   max-width: 1200px;
   box-shadow: 0 10px 40px var(--shadow);
   backdrop-filter: blur(10px);
+  transition: background 0.3s ease;
 }
 
 .hero h2 {
@@ -151,7 +182,8 @@ main {
   font-size: 1.1rem;
   font-family: 'Poppins', sans-serif;
   transition: all 0.3s ease;
-  background: white;
+  background: var(--input-bg);
+  color: var(--text-dark);
 }
 
 .search-container input:focus {
@@ -206,7 +238,7 @@ button:active {
 
 /* Recipe Card */
 .recipe-card {
-  background: white;
+  background: var(--input-bg);
   border-radius: 20px;
   padding: 1.5rem;
   box-shadow: 0 8px 25px var(--shadow);
@@ -255,13 +287,14 @@ button:active {
 
 /* Charts Page Styles */
 .charts-container {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--card-bg);
   border-radius: 30px;
   padding: 3rem;
   margin: 2rem auto;
   max-width: 900px;
   box-shadow: 0 10px 40px var(--shadow);
   text-align: center;
+  transition: background 0.3s ease;
 }
 
 .charts-container h2 {
@@ -288,7 +321,7 @@ canvas {
 
 /* Footer Styles */
 footer {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--header-bg);
   backdrop-filter: blur(10px);
   color: var(--text-dark);
   text-align: center;
@@ -296,6 +329,7 @@ footer {
   margin-top: auto;
   box-shadow: 0 -4px 20px var(--shadow);
   font-weight: 500;
+  transition: background 0.3s ease;
 }
 
 footer p {
@@ -325,6 +359,15 @@ footer p {
   nav a {
     font-size: 0.9rem;
     padding: 0.4rem 0.8rem;
+  }
+
+  .theme-toggle {
+    padding: 0.5rem 0.8rem;
+    font-size: 1rem;
+  }
+
+  .theme-icon {
+    font-size: 1.1rem;
   }
 
   .hero {
@@ -393,13 +436,14 @@ footer p {
 
 /* Card Component */
 .card {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--card-bg);
   border-radius: 20px;
   padding: 2rem;
   margin: 2rem auto;
   max-width: 1200px;
   box-shadow: 0 10px 40px var(--shadow);
   backdrop-filter: blur(10px);
+  transition: background 0.3s ease;
 }
 
 .card h2 {
@@ -477,7 +521,7 @@ footer p {
 }
 
 .modal-content {
-  background: linear-gradient(135deg, #ffffff, #fff5f0);
+  background: var(--modal-bg);
   margin: 3% auto;
   padding: 2rem;
   border-radius: 12px;
@@ -487,6 +531,7 @@ footer p {
   overflow-y: auto;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   animation: slideIn 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 @keyframes slideIn {
@@ -528,9 +573,34 @@ footer p {
 /* Make recipe cards interactive */
 .recipe-card {
   cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s, background 0.3s ease;
   border-radius: 8px;
-  background: #fff;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  background: var(--cream);
+  border: 2px solid var(--secondary-orange);
+  padding: 0.6rem 1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.theme-toggle:hover {
+  background: var(--secondary-orange);
+  color: white;
+  transform: scale(1.05);
+}
+
+.theme-icon {
+  font-size: 1.3rem;
 }
 
 .recipe-card:hover {
