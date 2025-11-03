@@ -8,16 +8,26 @@ import "dotenv/config";
  */
 export const searchRecipes = async (req, res) => {
   const query = req.query.query;
-  const apiKey = process.env.SPOONACULAR_API_KEY;
 
   try {
     const response = await axios.get(
       "https://api.spoonacular.com/recipes/complexSearch",
       {
-        params: { apiKey, query, number: 10 },
+        params: { s: query },
       }
     );
-    res.json(response.data);
+
+    // TheMealDB returns { meals: [...] } or { meals: null }
+    const meals = response.data.meals || [];
+
+    // Transform to match our frontend format
+    const results = meals.map(meal => ({
+      id: meal.idMeal,
+      title: meal.strMeal,
+      image: meal.strMealThumb,
+    }));
+
+    res.json({ results });
   } catch (err) {
     console.error("API error:", err.message);
     res.status(500).json({ error: "Failed to fetch recipes" });
