@@ -8,7 +8,7 @@ import { Ingredient } from "../models/Ingredient.js";
 export const listRecipes = async (req, res) => {
   try {
     const recipes = await getAllRecipes();
-    res.render("recipes/index", { recipes });
+    res.render("recipes/index", { title: "My Recipes", recipes });
   } catch (err) {
     console.error("Error listing recipes:", err);
     res.status(500).send("Server error while loading recipes.");
@@ -19,7 +19,7 @@ export const listRecipes = async (req, res) => {
  * 🔹 Show form for creating a new recipe
  */
 export const newRecipeForm = (req, res) => {
-  res.render("recipes/new");
+  res.render("recipes/new", { title: "Add New Recipe" });
 };
 
 /**
@@ -42,7 +42,7 @@ export const createRecipe = async (req, res) => {
 export const editRecipeForm = async (req, res) => {
   try {
     const recipe = await getRecipeById(req.params.id);
-    res.render("recipes/edit", { recipe });
+    res.render("recipes/edit", { title: "Edit Recipe", recipe });
   } catch (err) {
     console.error("Error loading edit form:", err);
     res.status(500).send("Failed to load edit form.");
@@ -83,7 +83,7 @@ export const showRecipeDetails = async (req, res) => {
   try {
     const recipe = await getRecipeById(req.params.id);
     const ingredients = await Ingredient.findByRecipeId(req.params.id);
-    res.render("recipes/show", { recipe, ingredients });
+    res.render("recipes/show", { title: recipe.title, recipe, ingredients });
   } catch (err) {
     console.error("Error showing recipe details:", err);
     res.status(500).send("Failed to load recipe details.");

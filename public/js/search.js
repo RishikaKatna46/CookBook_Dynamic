@@ -17,8 +17,8 @@ async function searchRecipes() {
       resultsDiv.innerHTML = data.results
         .map(
           (recipe) => `
-          <div class="recipe-card" onclick="showRecipeDetails(${recipe.id})">
-            <img src="${recipe.image}" alt="${recipe.title}" style="width: 100%; border-radius: 8px 8px 0 0; height: 180px; object-fit: cover;">
+          <div class="recipe-card" onclick="showRecipeDetails('${recipe.id}')">
+            <img src="${recipe.image}" alt="${recipe.title.replace(/"/g, '&quot;')}" style="width: 100%; border-radius: 8px 8px 0 0; height: 180px; object-fit: cover;">
             <h3 style="margin: 1rem; font-size: 1.1rem;">${recipe.title}</h3>
             <button style="margin: 0 1rem 1rem 1rem; width: calc(100% - 2rem);">View Recipe</button>
           </div>
