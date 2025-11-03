@@ -23,7 +23,8 @@ async function connectDB() {
   await db.exec(`
     CREATE TABLE IF NOT EXISTS recipes (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT,
+      title TEXT NOT NULL,
+      instructions TEXT,
       category TEXT,
       rating REAL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

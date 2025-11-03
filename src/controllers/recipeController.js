@@ -28,8 +28,24 @@ import { getAllRecipes, getRecipeById, addRecipe, updateRecipe,
    */
   export const createRecipe = async (req, res) => {
     try {
-      const { title, category, rating } = req.body;
-      await addRecipe({ title, category, rating });
+      const { name, instructions, ingredients, category, rating } = req.body;
+
+      // Add recipe (name is mapped to title in database)
+      const result = await addRecipe({
+        title: name,
+        instructions,
+        category,
+        rating
+      });
+
+      // Parse and save ingredients if provided
+      if (ingredients && ingredients.trim()) {
+        const ingredientsList = ingredients.split(',').map(i => i.trim()).filter(i => i);
+        for (const ingredient of ingredientsList) {
+          await Ingredient.create(ingredient, result.lastID);
+        }
+      }
+
       res.redirect("/recipes?created=true");
     } catch (err) {
       console.error("Error creating recipe:", err);
@@ -43,6 +59,11 @@ import { getAllRecipes, getRecipeById, addRecipe, updateRecipe,
   export const editRecipeForm = async (req, res) => {
     try {
       const recipe = await getRecipeById(req.params.id);
+      const ingredients = await Ingredient.findByRecipeId(req.params.id);
+
+      // Join ingredients as comma-separated string
+      recipe.ingredientsString = ingredients.map(ing => ing.name).join(', ');
+
       res.render("recipes/edit", { title: "Edit Recipe", recipe });
     } catch (err) {
       console.error("Error loading edit form:", err);
@@ -55,8 +76,25 @@ import { getAllRecipes, getRecipeById, addRecipe, updateRecipe,
    */
   export const updateRecipeController = async (req, res) => {
     try {
-      const { title, category, rating } = req.body;
-      await updateRecipe(req.params.id, { title, category, rating });
+      const { name, instructions, ingredients, category, rating } = req.body;
+
+      // Update recipe (name is mapped to title in database)
+      await updateRecipe(req.params.id, {
+        title: name,
+        instructions,
+        category,
+        rating
+      });
+
+      // Delete old ingredients and add new ones
+      await Ingredient.deleteByRecipeId(req.params.id);
+      if (ingredients && ingredients.trim()) {
+        const ingredientsList = ingredients.split(',').map(i => i.trim()).filter(i => i);
+        for (const ingredient of ingredientsList) {
+          await Ingredient.create(ingredient, req.params.id);
+        }
+      }
+
       res.redirect("/recipes?updated=true");
     } catch (err) {
       console.error("Error updating recipe:", err);

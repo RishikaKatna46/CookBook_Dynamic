@@ -9,17 +9,17 @@ export async function getRecipeById(id) {
   return await db.get("SELECT * FROM recipes WHERE id = ?", [id]);
 }
 
-export async function addRecipe({ title, category, rating }) {
+export async function addRecipe({ title, instructions, category, rating }) {
   return await db.run(
-    "INSERT INTO recipes (title, category, rating) VALUES (?, ?, ?)",
-    [title, category, rating]
+    "INSERT INTO recipes (title, instructions, category, rating) VALUES (?, ?, ?, ?)",
+    [title, instructions, category, rating]
   );
 }
 
-export async function updateRecipe(id, { title, category, rating }) {
+export async function updateRecipe(id, { title, instructions, category, rating }) {
   return await db.run(
-    "UPDATE recipes SET title = ?, category = ?, rating = ? WHERE id = ?",
-    [title, category, rating, id]
+    "UPDATE recipes SET title = ?, instructions = ?, category = ?, rating = ? WHERE id = ?",
+    [title, instructions, category, rating, id]
   );
 }
 
