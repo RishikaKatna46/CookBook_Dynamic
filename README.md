@@ -54,27 +54,30 @@
 
   npm run seed
 
-  Project Structure
+  ## Project Structure
 
-  CookBook_Dynamic/
-  ├── public/
-  │   ├── css/            # Custom orange-themed styles
-  │   ├── js/             # Client-side JavaScript (search, modal)
-  │   └── images/         # Static images and ERD
-  ├── src/
-  │   ├── app.js          # Main Express application
-  │   ├── db.js           # Database connection and schema
-  │   ├── controllers/    # Route handlers (apiController, recipeController)
-  │   ├── models/         # Database models (Recipe, Ingredient)
-  │   └── routes/         # Route definitions (api, recipes, index)
-  ├── views/
-  │   ├── layout.ejs      # Main layout template
-  │   ├── home.ejs        # Homepage with recipe search
-  │   ├── about.ejs       # About page with team info
-  │   └── recipes/        # Recipe CRUD pages (index, new, edit)
-  ├── data/               # SQLite database storage (gitignored)
-  ├── .env                # Environment variables (gitignored)
-  └── package.json
+  **Frontend Assets (public/)**
+  - `css/` - Custom orange-themed styles
+  - `js/` - Client-side JavaScript for search and modal functionality
+  - `images/` - Static images and ERD diagram
+
+  **Backend Code (src/)**
+  - `app.js` - Main Express application and middleware setup
+  - `db.js` - SQLite database connection and schema initialization
+  - `controllers/` - Business logic (apiController, recipeController)
+  - `models/` - Database models (Recipe, Ingredient)
+  - `routes/` - Route definitions (api, recipes, index)
+
+  **View Templates (views/)**
+  - `layout.ejs` - Main layout template with navigation
+  - `home.ejs` - Homepage with recipe search interface
+  - `about.ejs` - About page with team info and ERD
+  - `recipes/` - Recipe CRUD pages (index, new, edit)
+
+  **Data & Configuration**
+  - `data/` - SQLite database storage (gitignored)
+  - `.env` - Environment variables (gitignored)
+  - `package.json` - Dependencies and scripts
 
   Features
 
