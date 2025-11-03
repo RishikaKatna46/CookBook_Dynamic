@@ -390,8 +390,10 @@ footer p {
 .mb-2 {
   margin-bottom: 2rem;
 }
+/* ------------------------------------------------------------
+   Recipe Details Modal Styling
+------------------------------------------------------------ */
 
-/* Recipe Details Modal */
 .modal {
   display: none;
   position: fixed;
@@ -402,12 +404,13 @@ footer p {
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.6);
-  animation: fadeIn 0.3s;
+  animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+  to   { opacity: 1; }
 }
 
 .modal-content {
@@ -420,7 +423,7 @@ footer p {
   max-height: 85vh;
   overflow-y: auto;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  animation: slideIn 0.3s;
+  animation: slideIn 0.3s ease;
 }
 
 @keyframes slideIn {
@@ -452,10 +455,19 @@ footer p {
   margin-top: 1.5rem;
 }
 
-/* Make recipe cards clickable */
+.loading {
+  text-align: center;
+  color: #666;
+  padding: 2rem;
+  font-size: 1.1rem;
+}
+
+/* Make recipe cards interactive */
 .recipe-card {
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
+  border-radius: 8px;
+  background: #fff;
 }
 
 .recipe-card:hover {
