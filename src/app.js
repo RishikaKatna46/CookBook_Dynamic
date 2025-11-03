@@ -1,4 +1,4 @@
-// src/app.js  (ESM, final)
+// src/app.js  (ESM, final - after removing charts)
 
 import "dotenv/config";
 import express from "express";
@@ -33,9 +33,12 @@ app.use(expressLayouts);           // must be before routes that render views
 app.set("layout", "layout");       // views/layout.ejs
 
 // ---------- Routes ----------
-app.use("/", indexRoutes);         // '/', '/about', '/charts'
+app.use("/", indexRoutes);         // '/', '/about'
 app.use("/recipes", recipeRoutes); // CRUD
-app.use("/api", apiRoutes);        // /api/search, /api/stats
+app.use("/api", apiRoutes);        // /api/search, /api/recipe/:id, /api/stats
+
+// ❌ Removed charts route completely
+// app.get('/charts', (req, res) => res.render('charts'));
 
 // ---------- Error Handler ----------
 app.use((err, req, res, _next) => {
@@ -45,7 +48,5 @@ app.use((err, req, res, _next) => {
 
 // ---------- Start Server ----------
 app.listen(PORT, () => {
-  console.log(`CookBook running at http://localhost:${PORT}`);
+  console.log(`✅ CookBook running at http://localhost:${PORT}`);
 });
-
-

@@ -1,33 +1,34 @@
 // src/models/Ingredient.js
-const db = require('../db');
+import db from "../db.js";
 
-class Ingredient {
-  
-  // Creates a new ingredient linked to a recipe
-  static create(name, recipeId) {
-    return new Promise((resolve, reject) => {
-      db.run('INSERT INTO ingredients (name, recipe_id) VALUES (?, ?)', [name, recipeId], function (err) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(this.lastID);
-        }
-      });
-    });
+export class Ingredient {
+  // 🔹 Creates a new ingredient linked to a recipe
+  static async create(name, recipeId) {
+    try {
+      const result = await db.run(
+        "INSERT INTO ingredients (name, recipe_id) VALUES (?, ?)",
+        [name, recipeId]
+      );
+      return result.lastID;
+    } catch (err) {
+      console.error("Error inserting ingredient:", err);
+      throw err;
+    }
   }
 
-  // Finds all ingredients for a specific recipe
-  static findByRecipeId(recipeId) {
-    return new Promise((resolve, reject) => {
-      db.all('SELECT * FROM ingredients WHERE recipe_id = ?', [recipeId], (err, rows) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(rows);
-        }
-      });
-    });
+  // 🔹 Finds all ingredients for a specific recipe
+  static async findByRecipeId(recipeId) {
+    try {
+      const rows = await db.all(
+        "SELECT * FROM ingredients WHERE recipe_id = ?",
+        [recipeId]
+      );
+      return rows;
+    } catch (err) {
+      console.error("Error fetching ingredients:", err);
+      throw err;
+    }
   }
 }
 
-module.exports = Ingredient;
+export default Ingredient;
