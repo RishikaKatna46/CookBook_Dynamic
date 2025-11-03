@@ -14,6 +14,7 @@ import "./db.js";
 import indexRoutes from "./routes/indexRoutes.js";
 import recipeRoutes from "./routes/recipeRoutes.js";
 import apiRoutes from "./routes/apiRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -36,6 +37,7 @@ app.set("layout", "layout");       // views/layout.ejs
 app.use("/", indexRoutes);         // '/', '/about'
 app.use("/recipes", recipeRoutes); // CRUD
 app.use("/api", apiRoutes);        // /api/search, /api/recipe/:id, /api/stats
+app.use("/contact", contactRoutes); // /contact (GET, POST)
 
 // ❌ Removed charts route completely
 // app.get('/charts', (req, res) => res.render('charts'));
