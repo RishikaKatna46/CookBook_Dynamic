@@ -1,8 +1,8 @@
-const axios = require('axios');
-const db = require('../db');
-require('dotenv').config();
+import axios from "axios";
+import db from "../db.js";
+import "dotenv/config";
 
-const searchRecipes = async (req, res) => {
+export const searchRecipes = async (req, res) => {
   const query = req.query.query;
 
   try {
@@ -30,7 +30,7 @@ const searchRecipes = async (req, res) => {
   }
 };
 
-const getRecipeDetails = async (req, res) => {
+export const getRecipeDetails = async (req, res) => {
   const recipeId = req.params.id;
 
   try {
@@ -71,7 +71,7 @@ const getRecipeDetails = async (req, res) => {
   }
 };
 
-const getStats = async (req, res) => {
+export const getStats = async (req, res) => {
   try {
     // Get total count of recipes
     db.get('SELECT COUNT(*) as count FROM recipes', [], (err, countResult) => {
@@ -118,5 +118,3 @@ const getStats = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch statistics' });
   }
 };
-
-module.exports = { searchRecipes, getRecipeDetails, getStats };

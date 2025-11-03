@@ -1,6 +1,7 @@
 {
   "name": "cookbook_dynamic",
   "version": "1.0.0",
+  "type": "module",
   "description": "Dynamic MVC Web App for ISM 6225 Final Project – Azure Deployment",
   "main": "index.js",
   "scripts": {
