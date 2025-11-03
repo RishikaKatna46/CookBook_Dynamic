@@ -13,14 +13,19 @@
 
   <header>
     <h1>🍳 CookBook</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/recipes">My Recipes <span id="recipeCount"
-        style="background: var(--primary-orange); color: white; padding: 0.2rem 0.6rem;
-        border-radius: 20px; font-size: 0.9rem; margin-left: 0.5rem;">0</span></a>
-      <a href="/about">About</a>
-      <a href="/contact">Contact Us</a>
-    </nav>
+    <div style="display: flex; align-items: center; gap: 2rem;">
+      <nav>
+        <a href="/">Home</a>
+        <a href="/recipes">My Recipes <span id="recipeCount"
+          style="background: var(--primary-orange); color: white; padding: 0.2rem 0.6rem;
+          border-radius: 20px; font-size: 0.9rem; margin-left: 0.5rem;">0</span></a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact Us</a>
+      </nav>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+        <span class="theme-icon" id="themeIcon">🌙</span>
+      </button>
+    </div>
   </header>
 
   <main>
@@ -52,6 +57,30 @@
   </style>
 
   <script>
+    // Theme Management
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      const themeIcon = document.getElementById('themeIcon');
+
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+
+      // Update icon
+      themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    }
+
+    // Load saved theme on page load
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      const themeIcon = document.getElementById('themeIcon');
+
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      if (themeIcon) {
+        themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+      }
+    })();
+
     // Toast notification function
     function showToast(message, type = 'success') {
       const toast = document.getElementById('toast');
