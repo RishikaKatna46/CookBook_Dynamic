@@ -48,6 +48,11 @@ router.post("/:id/update", updateRecipeController);
 router.delete("/:id", deleteRecipeController);
 
 /**
+ * 🔹 Delete recipe (POST for form submission)
+ */
+router.post("/:id/delete", deleteRecipeController);
+
+/**
  * 🔹 Show details of a specific recipe
  */
 router.get("/:id", showRecipeDetails);
